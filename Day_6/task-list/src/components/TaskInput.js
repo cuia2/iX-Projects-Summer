@@ -1,21 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export default function App() {
+import{Task} from '../models/task';
+
+export default function TaskInput() {
+
+    const [taskName, setTaskName] = useState('');
+    
+    function onButtonPressed() {
+      event.preventDefault();
+      
+      //create a new Task
+      const task = new Task(
+        (new Date()).getTime(),
+        taskName,
+        false,
+      );
+
+      props.onTaskCreated(task);
+
+      setTaskName('');
+    }
+
     return (
-      <div>
-
-        <div className="input-group mb-3">
+      <div className='mt-4'>
+        <form onSubmit={onButtonPressed}>
+          <div className="input-group mb-3">
             <input
-            type="text"
-            className="form-control"
-            placeholder="Enter task name"
+              value={taskName}
+              onChange={(event) => setTaskName(event.target.value)}
+              type="text"
+              className="form-control"
+              placeholder="Enter task name"
             />
-        <button
+          <button
             className="btn btn-outline-secondary"
-            type="button">
+            type="submit">
             +
-        </button>
-        </div>
+          </button>
+          </div>
+        </form>
       </div>
     )
 }
